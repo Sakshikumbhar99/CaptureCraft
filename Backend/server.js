@@ -77,6 +77,14 @@ app.use("/api/slider", sliderRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/about", aboutRoutes);
 
+
+app.use(cors({
+  origin: "https://capturecraft.vercel.app",
+  methods: ["GET","POST","PUT","DELETE"],
+  credentials: true
+}));
+
+
 // TEST ROUTE
 app.get("/", (req, res) => {
   res.send("API running 🚀");
