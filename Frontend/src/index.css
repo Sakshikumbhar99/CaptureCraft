@@ -1,0 +1,42 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  overflow-x: hidden;   /* ❌ removes left-right scroll */
+  margin: 0;
+  padding: 0;
+  background: #000;
+  color: white;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes moveGlow {
+  from {
+    transform: translate(-100px, -100px);
+  }
+  to {
+    transform: translate(100px, 100px);
+  }
+}
+/* SHOW OVERLAY ON HOVER */
+div:hover .overlay {
+  opacity: 1;
+}
+
+/* ZOOM EFFECT */
+div:hover img {
+  transform: scale(1.08);
+}
