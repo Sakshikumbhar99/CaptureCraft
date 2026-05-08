@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import API from "../services/api";
 
 export default function ImageSlider() {
   const [images, setImages] = useState([]);
@@ -25,7 +26,7 @@ useEffect(() => {
   // 📡 Fetch images
   useEffect(() => {
     const fetchImages = async () => {
-      const res = await axios.get("http://localhost:5000/api/slider");
+      const res = await API.get("/slider");
       setImages(res.data);
     };
     fetchImages();

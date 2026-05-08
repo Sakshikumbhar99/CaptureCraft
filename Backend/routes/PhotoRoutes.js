@@ -42,7 +42,7 @@
 //     const newPhoto = new Photo({
 //       title: req.body.title,
 //       category: req.body.category || "All",
-//       imageUrl: `http://localhost:5000/uploads/${req.file.filename}`,
+//       imageUrl: `https://capturecraft-backend.onrender.com/uploads/${req.file.filename}`,
 //     });
 
 //     await newPhoto.save();
@@ -86,6 +86,9 @@ import express from "express";
 import Photo from "../models/Photo.js";
 import upload from "../middleware/upload.js";
 
+
+
+const baseUrl = process.env.BASE_URL;
 const router = express.Router();
 
 // ================= UPLOAD =================
@@ -97,7 +100,7 @@ router.post("/", upload.single("image"), async (req, res) => {
 
       category: req.body.category,
 
-      imageUrl: `http://localhost:5000/uploads/${req.file.filename}`,
+      imageUrl: `${baseUrl}/uploads/${req.file.filename}`,
     });
 
     await newPhoto.save();

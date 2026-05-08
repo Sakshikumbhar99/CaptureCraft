@@ -49,7 +49,7 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import connectDB from "./config/db.js";
-
+import path from "path";
 import submissionRoutes from "./routes/submissionRoutes.js";
 import photoRoutes from "./routes/PhotoRoutes.js";
 import sliderRoutes from "./routes/sliderRoutes.js";

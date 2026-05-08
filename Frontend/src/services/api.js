@@ -1,1 +1,7 @@
-const API = "https://capturecraft-backend.onrender.com";
+import axios from "axios";
+
+const API = axios.create({
+  baseURL: "https://capturecraft-backend.onrender.com/api",
+});
+
+export default API;

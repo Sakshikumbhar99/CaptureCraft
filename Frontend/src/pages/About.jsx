@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import Footer from "../components/Footer";
-
+import API from "../services/api";
 export default function About() {
   const [about, setAbout] = useState(null);
   const [show, setShow] = useState(false);
@@ -24,7 +24,7 @@ export default function About() {
 
   const fetchAbout = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/about");
+      const res = await axios.get("https://capturecraft-backend.onrender.com/api/about");
       setAbout(res.data);
     } catch (err) {
       console.log("Error loading about:", err);

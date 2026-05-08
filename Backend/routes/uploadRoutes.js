@@ -2,7 +2,7 @@ import express from "express";
 import multer from "multer";
 
 const router = express.Router();
-
+const baseUrl = process.env.BASE_URL;
 // storage config
 const storage = multer.diskStorage({
   destination: "uploads/",
@@ -17,7 +17,7 @@ const upload = multer({ storage });
 router.post("/", upload.single("image"), (req, res) => {
   try {
     res.json({
-      imageUrl: `http://localhost:5000/uploads/${req.file.filename}`,
+      imageUrl: `${baseUrl}/uploads/${req.file.filename}`,
     });
   } catch (error) {
     res.status(500).json({ message: "Upload failed" });

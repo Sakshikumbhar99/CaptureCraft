@@ -29,7 +29,7 @@
 //       setLoading(true);
 
 //       // 🔥 API CALL
-//       await axios.post("http://localhost:5000/api/contact", form);
+//       await axios.post("https://capturecraft-backend.onrender.com/api/contact", form);
 
 //       setSubmitted(true);
 
@@ -288,6 +288,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
+import API from "../services/api";
 
 export default function Contact() {
   const [form, setForm] = useState({
@@ -320,7 +321,7 @@ export default function Contact() {
 
     try {
       setLoading(true);
-      await axios.post("http://localhost:5000/api/contact", form);
+      await await API.post("/contact", form);
 
       setSubmitted(true);
       setForm({ name: "", email: "", message: "" });

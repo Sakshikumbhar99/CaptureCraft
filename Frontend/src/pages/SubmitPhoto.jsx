@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useDropzone } from "react-dropzone";
 import Footer from "../components/Footer";
+import API from "../services/api";
+
 function SubmitPhoto() {
   const [formData, setFormData] = useState({
     name: "",
@@ -38,7 +40,7 @@ useEffect(() => {
 
   // const fetchImages = async () => {
   //   const res = await axios.get(
-  //     "http://localhost:5000/api/submissions/approved"
+  //     "https://capturecraft-backend.onrender.com/api/submissions/approved"
   //   );
   //   setImages(res.data);
   // };
@@ -46,9 +48,7 @@ useEffect(() => {
   const fetchImages = async () => {
     try {
       setLoading(true);
-      const res = await axios.get(
-        "http://localhost:5000/api/submissions/approved",
-      );
+      const res = await API.get("/submissions/approved");
       setImages(res.data);
     } catch (err) {
       console.log(err);
@@ -69,7 +69,7 @@ useEffect(() => {
     data.append("image", file);
 
     try {
-      const res = await axios.post("http://localhost:5000/api/upload", data);
+      const res = await API.post("/upload", data);
 
       setFormData((prev) => ({
         ...prev,
@@ -96,7 +96,7 @@ useEffect(() => {
 
   //   try {
   //     await axios.post(
-  //       "http://localhost:5000/api/submissions",
+  //       "https://capturecraft-backend.onrender.com/api/submissions",
   //       formData
   //     );
 
@@ -129,7 +129,7 @@ useEffect(() => {
     try {
       setSubmitting(true);
 
-      await axios.post("http://localhost:5000/api/submissions", formData);
+      await API.post("/submissions", formData);
 
       setMessage("Submitted ✅");
 

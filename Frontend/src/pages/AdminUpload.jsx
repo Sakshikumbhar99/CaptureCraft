@@ -32,9 +32,9 @@ function AdminUpload() {
 
   const fetchAll = async () => {
     const [g, s, sub] = await Promise.all([
-      axios.get("http://localhost:5000/api/photos"),
-      axios.get("http://localhost:5000/api/slider"),
-      axios.get("http://localhost:5000/api/submissions"),
+      axios.get("https://capturecraft-backend.onrender.com/api/photos"),
+      axios.get("https://capturecraft-backend.onrender.com/api/slider"),
+      axios.get("https://capturecraft-backend.onrender.com/api/submissions"),
     ]);
 
     setGalleryPhotos(g.data);
@@ -44,22 +44,22 @@ function AdminUpload() {
 
   // ================= ACTIONS =================
   const deleteGallery = async (id) => {
-    await axios.delete(`http://localhost:5000/api/photos/${id}`);
+    await axios.delete(`/api/photos/${id}`);
     fetchAll();
   };
 
   const deleteSlider = async (id) => {
-    await axios.delete(`http://localhost:5000/api/slider/${id}`);
+    await axios.delete(`https://capturecraft-backend.onrender.com/api/slider/${id}`);
     fetchAll();
   };
 
   const approve = async (id) => {
-    await axios.put(`http://localhost:5000/api/submissions/approve/${id}`);
+    await axios.put(`https://capturecraft-backend.onrender.com/api/submissions/approve/${id}`);
     fetchAll();
   };
 
   const reject = async (id) => {
-    await axios.delete(`http://localhost:5000/api/submissions/${id}`);
+    await axios.delete(`https://capturecraft-backend.onrender.com/api/submissions/${id}`);
     fetchAll();
   };
 
@@ -107,7 +107,7 @@ const onAboutDrop = async (files) => {
 
   // upload image to backend upload API
   const uploadRes = await axios.post(
-    "http://localhost:5000/api/upload",
+    "https://capturecraft-backend.onrender.com/api/upload",
     formData
   );
 
@@ -138,7 +138,7 @@ const { getRootProps: aboutRoot, getInputProps: aboutInput } = useDropzone({
 // const uploadAbout = async (e) => {
 //   e.preventDefault();
 
-//   await axios.put("http://localhost:5000/api/about", aboutData);
+//   await axios.put("https://capturecraft-backend.onrender.com/api/about", aboutData);
 
 //   alert("About Updated ✅");
 
@@ -157,60 +157,12 @@ const { getRootProps: aboutRoot, getInputProps: aboutInput } = useDropzone({
 const uploadAbout = async (e) => {
   e.preventDefault();
 
-  await axios.put("http://localhost:5000/api/about", aboutData);
+  await axios.put("https://capturecraft-backend.onrender.com/api/about", aboutData);
 
   alert("About Updated ✅");
 
   setAboutPreview(null);
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -238,7 +190,7 @@ const uploadAbout = async (e) => {
     formData.append("category", galleryCategory); 
     formData.append("image", galleryImage);
 
-    await axios.post("http://localhost:5000/api/photos", formData);
+    await axios.post("https://capturecraft-backend.onrender.com/api/photos", formData);
 
     setGalleryTitle("");
     setGalleryCategory("");
@@ -271,7 +223,7 @@ const uploadAbout = async (e) => {
     formData.append("title", sliderTitle);
     formData.append("image", sliderImage);
 
-    await axios.post("http://localhost:5000/api/slider", formData);
+    await axios.post("https://capturecraft-backend.onrender.com/api/slider", formData);
 
     setSliderTitle("");
     setSliderImage(null);

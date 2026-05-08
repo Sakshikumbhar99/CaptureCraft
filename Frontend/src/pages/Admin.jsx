@@ -1,12 +1,13 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import API from "../services/api";
 
 function Admin() {
   const [submissions, setSubmissions] = useState([]);
 
   // Fetch all submissions
   const fetchSubmissions = async () => {
-    const res = await axios.get("http://localhost:5000/api/submissions");
+    const res = await API.get("/submissions");
     setSubmissions(res.data);
   };
 
@@ -16,7 +17,7 @@ function Admin() {
 
   // Approve function
   const handleApprove = async (id) => {
-    await axios.put(`http://localhost:5000/api/submissions/${id}`, {
+    await API.put(`/submissions/${id}`, {
       status: "approved"
     });
 
@@ -25,7 +26,7 @@ function Admin() {
 
   // Reject function
   const handleReject = async (id) => {
-    await axios.put(`http://localhost:5000/api/submissions/${id}`, {
+    await API.put(`/submissions/${id}`, {
       status: "rejected"
     });
 

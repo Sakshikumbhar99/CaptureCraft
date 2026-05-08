@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Footer from "../components/Footer";
+import API from "../services/api";
 
 function Gallery() {
   const [photos, setPhotos] = useState([]);
@@ -25,7 +26,7 @@ function Gallery() {
   const fetchPhotos = async () => {
     try {
       setLoading(true);
-      const res = await axios.get("http://localhost:5000/api/photos");
+      const res = await API.get("/photos");
       setPhotos(res.data);
       setFilteredPhotos(res.data);
     } catch (err) {

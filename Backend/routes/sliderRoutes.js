@@ -30,6 +30,7 @@ import express from "express";
 import Slider from "../models/SliderPhoto.js";
 import upload from "../middleware/upload.js";
 
+const baseUrl = process.env.BASE_URL;
 const router = express.Router();
 
 // GET
@@ -42,7 +43,7 @@ router.get("/", async (req, res) => {
 router.post("/", upload.single("image"), async (req, res) => {
   try {
     const imageUrl = req.file
-      ? `http://localhost:5000/uploads/${req.file.filename}`
+      ? `${baseUrl}/uploads/${req.file.filename}`
       : "";
 
     const newSlide = new Slider({

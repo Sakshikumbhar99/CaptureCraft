@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import API from "../services/api";
 
 export default function AdminMessages() {
   const [messages, setMessages] = useState([]);
@@ -10,7 +11,7 @@ export default function AdminMessages() {
 
   const fetchMessages = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/contact");
+      const res = await API.get("/contact");
       setMessages(res.data);
     } catch (error) {
       console.error(error);
@@ -23,7 +24,7 @@ export default function AdminMessages() {
     if (!confirmDelete) return;
 
     try {
-      await axios.delete(`http://localhost:5000/api/contact/${id}`);
+      await API.delete(`/contact/${id}`);
 
       // Update UI instantly
       setMessages(messages.filter((msg) => msg._id !== id));
