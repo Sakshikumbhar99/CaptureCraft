@@ -51,7 +51,7 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 
 import submissionRoutes from "./routes/submissionRoutes.js";
-import photoRoutes from "./routes/photoRoutes.js";
+import photoRoutes from "./routes/PhotoRoutes.js";
 import sliderRoutes from "./routes/sliderRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import uploadRoutes from "./routes/uploadRoutes.js";
