@@ -68,7 +68,11 @@ app.use(express.json());
 
 // ✅ STATIC FILES
 app.use("/uploads", express.static("uploads"));
-
+app.use(cors({
+  origin: "https://capturecraft.vercel.app",
+  methods: ["GET","POST","PUT","DELETE"],
+  credentials: true
+}));
 // ✅ ROUTES
 app.use("/api/upload", uploadRoutes);
 app.use("/api/photos", photoRoutes);
@@ -77,12 +81,6 @@ app.use("/api/slider", sliderRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/about", aboutRoutes);
 
-
-app.use(cors({
-  origin: "https://capturecraft.vercel.app",
-  methods: ["GET","POST","PUT","DELETE"],
-  credentials: true
-}));
 
 
 // TEST ROUTE
