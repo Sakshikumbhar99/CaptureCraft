@@ -1,0 +1,1 @@
+const API = "https://capturecraft-backend.onrender.com";
