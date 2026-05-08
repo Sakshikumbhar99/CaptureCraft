@@ -1,35 +1,59 @@
-import express from "express";
-import multer from "multer";
-// const baseUrl = process.env.BASE_URL;
-const router = express.Router();
+// import express from "express";
+// import multer from "multer";
+// // const baseUrl = process.env.BASE_URL;
+// const router = express.Router();
 
-// storage config
-const storage = multer.diskStorage({
-  destination: "uploads/",
-  filename: (req, file, cb) => {
-    cb(null, Date.now() + "-" + file.originalname);
-  },
-});
+// // storage config
+// const storage = multer.diskStorage({
+//   destination: "uploads/",
+//   filename: (req, file, cb) => {
+//     cb(null, Date.now() + "-" + file.originalname);
+//   },
+// });
 
-const upload = multer({ storage });
+// const upload = multer({ storage });
 
-// upload route
+// // upload route
+// // router.post("/", upload.single("image"), (req, res) => {
+// //   try {
+// //     res.json({
+// //       imageUrl: `${baseUrl}/uploads/${req.file.filename}`,
+// //     });
+// //   } catch (error) {
+// //     res.status(500).json({ message: "Upload failed" });
+// //   }
+// // });
+
 // router.post("/", upload.single("image"), (req, res) => {
 //   try {
 //     res.json({
-//       imageUrl: `${baseUrl}/uploads/${req.file.filename}`,
+//       imageUrl: req.file.path,
 //     });
 //   } catch (error) {
 //     res.status(500).json({ message: "Upload failed" });
 //   }
 // });
 
-router.post("/", upload.single("image"), (req, res) => {
+// export default router;
+
+
+
+
+
+
+
+import express from "express";
+import upload from "../middleware/upload.js";
+
+const router = express.Router();
+
+router.post("/", upload.single("image"), async (req, res) => {
   try {
     res.json({
       imageUrl: req.file.path,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ message: "Upload failed" });
   }
 });
