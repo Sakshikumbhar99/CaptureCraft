@@ -1,6 +1,6 @@
 import express from "express";
 import multer from "multer";
-const baseUrl = process.env.BASE_URL;
+// const baseUrl = process.env.BASE_URL;
 const router = express.Router();
 
 // storage config
@@ -14,10 +14,20 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // upload route
+// router.post("/", upload.single("image"), (req, res) => {
+//   try {
+//     res.json({
+//       imageUrl: `${baseUrl}/uploads/${req.file.filename}`,
+//     });
+//   } catch (error) {
+//     res.status(500).json({ message: "Upload failed" });
+//   }
+// });
+
 router.post("/", upload.single("image"), (req, res) => {
   try {
     res.json({
-      imageUrl: `${baseUrl}/uploads/${req.file.filename}`,
+      imageUrl: req.file.path,
     });
   } catch (error) {
     res.status(500).json({ message: "Upload failed" });
