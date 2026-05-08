@@ -1,8 +1,8 @@
 import express from "express";
 import multer from "multer";
-
-const router = express.Router();
 const baseUrl = process.env.BASE_URL;
+const router = express.Router();
+
 // storage config
 const storage = multer.diskStorage({
   destination: "uploads/",
