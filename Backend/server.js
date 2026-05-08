@@ -68,14 +68,17 @@ app.use(express.json());
 
 // ✅ STATIC FILES
 app.use("/uploads", express.static("uploads"));
+
+
 app.use(cors({
   origin: [
     "https://capturecraft.vercel.app",
-    "https://capturecraft-43b8t7edv-sakshikumbhar99s-projects.vercel.app",
-    "http://localhost:5173"
+    "https://capturecraft-43b8t7edv-sakshikumbhar99s-projects.vercel.app"
   ],
   credentials: true
 }));
+
+
 // ✅ ROUTES
 app.use("/api/upload", uploadRoutes);
 app.use("/api/photos", photoRoutes);
