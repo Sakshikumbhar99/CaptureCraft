@@ -16,6 +16,7 @@ function AdminUpload() {
   const [sliderPreview, setSliderPreview] = useState(null);
   const [showModal, setShowModal] = useState(false);
   const [galleryCategory, setGalleryCategory] = useState("");
+  const [loading, setLoading] = useState(false);
   const categories = [
     "All",
     "Flower",
@@ -44,77 +45,89 @@ function AdminUpload() {
 
   // ================= ACTIONS =================
   const deleteGallery = async (id) => {
-    await axios.delete(`/api/photos/${id}`);
+    await axios.delete(
+      `https://capturecraft-backend.onrender.com/api/photos/${id}`,
+    );
     fetchAll();
   };
 
   const deleteSlider = async (id) => {
-    await axios.delete(`https://capturecraft-backend.onrender.com/api/slider/${id}`);
+    await axios.delete(
+      `https://capturecraft-backend.onrender.com/api/slider/${id}`,
+    );
     fetchAll();
   };
 
   const approve = async (id) => {
-    await axios.put(`https://capturecraft-backend.onrender.com/api/submissions/approve/${id}`);
+    await axios.put(
+      `https://capturecraft-backend.onrender.com/api/submissions/approve/${id}`,
+    );
     fetchAll();
   };
 
   const reject = async (id) => {
-    await axios.delete(`https://capturecraft-backend.onrender.com/api/submissions/${id}`);
+    await axios.delete(
+      `https://capturecraft-backend.onrender.com/api/submissions/${id}`,
+    );
     fetchAll();
   };
-  
+
   // ================= ABOUT ME =================
- const [aboutData, setAboutData] = useState({
-  title: "",
-  description1: "",
-  description2: "",
-  description3: "",
-  quote: "",
-  imageUrl: "",
-});
+  const [aboutData, setAboutData] = useState({
+    title: "",
+    description1: "",
+    description2: "",
+    description3: "",
+    quote: "",
+    imageUrl: "",
+  });
 
-const [aboutPreview, setAboutPreview] = useState(null);
+  const [aboutPreview, setAboutPreview] = useState(null);
 
-// IMAGE UPLOAD (reuse your /api/upload)
-const onAboutDrop = async (files) => {
-  const file = files[0];
-  if (!file) return;
+  // IMAGE UPLOAD (reuse your /api/upload)
+  const onAboutDrop = async (files) => {
+    const file = files[0];
+    if (!file) return;
 
-  setAboutPreview(URL.createObjectURL(file));
+    setAboutPreview(URL.createObjectURL(file));
 
-  const formData = new FormData();
-  formData.append("image", file);
+    const formData = new FormData();
+    formData.append("image", file);
 
-  // upload image to backend upload API
-  const uploadRes = await axios.post(
-    "https://capturecraft-backend.onrender.com/api/upload",
-    formData, {
-  headers: {
-    "Content-Type": "multipart/form-data",
-  },
-});
+    // upload image to backend upload API
+    const uploadRes = await axios.post(
+      "https://capturecraft-backend.onrender.com/api/upload",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    );
 
-  setAboutData((prev) => ({
-    ...prev,
-    imageUrl: uploadRes.data.imageUrl,
-  }));
-};
+    setAboutData((prev) => ({
+      ...prev,
+      imageUrl: uploadRes.data.imageUrl,
+    }));
+  };
 
-const { getRootProps: aboutRoot, getInputProps: aboutInput } = useDropzone({
-  onDrop: onAboutDrop,
-  accept: { "image/*": [] },
-});
+  const { getRootProps: aboutRoot, getInputProps: aboutInput } = useDropzone({
+    onDrop: onAboutDrop,
+    accept: { "image/*": [] },
+  });
 
+  const uploadAbout = async (e) => {
+    e.preventDefault();
 
-const uploadAbout = async (e) => {
-  e.preventDefault();
+    await axios.put(
+      "https://capturecraft-backend.onrender.com/api/about",
+      aboutData,
+    );
 
-  await axios.put("https://capturecraft-backend.onrender.com/api/about", aboutData);
+    alert("About Updated ✅");
 
-  alert("About Updated ✅");
-
-  setAboutPreview(null);
-};
+    setAboutPreview(null);
+  };
 
   // ================= GALLERY DROP =================
   const onGalleryDrop = (files) => {
@@ -130,29 +143,69 @@ const uploadAbout = async (e) => {
     accept: { "image/*": [] },
   });
 
-  const uploadGallery = async (e) => {
-    e.preventDefault();
 
+
+
+
+
+
+
+  // const uploadGallery = async (e) => {
+  //   e.preventDefault();
+
+  //   if (!galleryImage) return alert("Upload image first");
+
+  //   const formData = new FormData();
+  //   formData.append("title", galleryTitle);
+  //   formData.append("category", galleryCategory);
+  //   formData.append("image", galleryImage);
+
+  //   await axios.post(
+  //     "https://capturecraft-backend.onrender.com/api/photos",
+  //     formData,
+  //     {
+  //       headers: {
+  //         "Content-Type": "multipart/form-data",
+  //       },
+  //     },
+  //   );
+
+  //   setGalleryTitle("");
+  //   setGalleryCategory("");
+  //   setGalleryImage(null);
+  //   setGalleryPreview(null);
+
+  //   fetchAll();
+  // };
+
+const uploadGallery = async (e) => {
+  e.preventDefault();
+
+  try {
     if (!galleryImage) return alert("Upload image first");
 
     const formData = new FormData();
     formData.append("title", galleryTitle);
-    formData.append("category", galleryCategory); 
+    formData.append("category", galleryCategory);
     formData.append("image", galleryImage);
 
-    await axios.post("https://capturecraft-backend.onrender.com/api/photos", formData, {
-  headers: {
-    "Content-Type": "multipart/form-data",
-  },
-});
+    await axios.post(
+      "https://capturecraft-backend.onrender.com/api/photos",
+      formData
+    );
 
-    setGalleryTitle("");
-    setGalleryCategory("");
-    setGalleryImage(null);
-    setGalleryPreview(null);
+    alert("Gallery Uploaded ✅");
 
     fetchAll();
-  };
+  } catch (err) {
+    console.log(err);
+    alert("Upload Failed ❌");
+  }
+};
+
+
+
+
 
   // ================= SLIDER DROP =================
   const onSliderDrop = (files) => {
@@ -177,11 +230,15 @@ const uploadAbout = async (e) => {
     formData.append("title", sliderTitle);
     formData.append("image", sliderImage);
 
-    await axios.post("https://capturecraft-backend.onrender.com/api/slider", formData, {
-  headers: {
-    "Content-Type": "multipart/form-data",
-  },
-});
+    await axios.post(
+      "https://capturecraft-backend.onrender.com/api/slider",
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      },
+    );
 
     setSliderTitle("");
     setSliderImage(null);
@@ -228,7 +285,9 @@ const uploadAbout = async (e) => {
 
           {galleryPreview && <img src={galleryPreview} className="preview" />}
 
-          <button type="submit" className="submitBtn">Upload</button>
+          <button type="submit" className="submitBtn">
+            Upload
+          </button>
         </form>
 
         <div className="grid">
@@ -299,72 +358,70 @@ const uploadAbout = async (e) => {
         </div>
       </section>
 
+      {/* ================= For AboutMe page ================= */}
 
- {/* ================= For AboutMe page ================= */}
+      <section className="section">
+        <h2 className="title">About Me Editor 🧑‍🎨</h2>
 
-<section className="section">
-  <h2 className="title">About Me Editor 🧑‍🎨</h2>
+        <form className="formBox" onSubmit={uploadAbout}>
+          <input
+            className="input"
+            placeholder="Title"
+            value={aboutData.title}
+            onChange={(e) =>
+              setAboutData({ ...aboutData, title: e.target.value })
+            }
+          />
 
-  <form className="formBox" onSubmit={uploadAbout}>
-    
-    <input
-      className="input"
-      placeholder="Title"
-      value={aboutData.title}
-      onChange={(e) =>
-        setAboutData({ ...aboutData, title: e.target.value })
-      }
-    />
+          <input
+            className="input"
+            placeholder="Description 1"
+            value={aboutData.description1}
+            onChange={(e) =>
+              setAboutData({ ...aboutData, description1: e.target.value })
+            }
+          />
 
-    <input
-      className="input"
-      placeholder="Description 1"
-      value={aboutData.description1}
-      onChange={(e) =>
-        setAboutData({ ...aboutData, description1: e.target.value })
-      }
-    />
+          <input
+            className="input"
+            placeholder="Description 2"
+            value={aboutData.description2}
+            onChange={(e) =>
+              setAboutData({ ...aboutData, description2: e.target.value })
+            }
+          />
 
-    <input
-      className="input"
-      placeholder="Description 2"
-      value={aboutData.description2}
-      onChange={(e) =>
-        setAboutData({ ...aboutData, description2: e.target.value })
-      }
-    />
+          <input
+            className="input"
+            placeholder="Description 3"
+            value={aboutData.description3}
+            onChange={(e) =>
+              setAboutData({ ...aboutData, description3: e.target.value })
+            }
+          />
 
-    <input
-      className="input"
-      placeholder="Description 3"
-      value={aboutData.description3}
-      onChange={(e) =>
-        setAboutData({ ...aboutData, description3: e.target.value })
-      }
-    />
+          <input
+            className="input"
+            placeholder="Quote"
+            value={aboutData.quote}
+            onChange={(e) =>
+              setAboutData({ ...aboutData, quote: e.target.value })
+            }
+          />
 
-    <input
-      className="input"
-      placeholder="Quote"
-      value={aboutData.quote}
-      onChange={(e) =>
-        setAboutData({ ...aboutData, quote: e.target.value })
-      }
-    />
+          {/* IMAGE UPLOAD */}
+          <div {...aboutRoot()} className="dropzone">
+            <input {...aboutInput()} />
+            <p>📤 Drag & Drop About Image</p>
+          </div>
 
-    {/* IMAGE UPLOAD */}
-    <div {...aboutRoot()} className="dropzone">
-      <input {...aboutInput()} />
-      <p>📤 Drag & Drop About Image</p>
-    </div>
+          {aboutPreview && <img src={aboutPreview} className="preview" />}
 
-    {aboutPreview && (
-      <img src={aboutPreview} className="preview" />
-    )}
-
-    <button type="submit" className="submitBtn">Update About</button>
-  </form>
-</section>
+          <button type="submit" className="submitBtn">
+            Update About
+          </button>
+        </form>
+      </section>
 
       {/* ================= MODAL ================= */}
       {showModal && (
@@ -394,7 +451,9 @@ const uploadAbout = async (e) => {
 
             {sliderPreview && <img src={sliderPreview} className="preview" />}
 
-            <button type="submit" className="submitBtn">Upload</button>
+            <button type="submit" className="submitBtn">
+              Upload
+            </button>
           </form>
         </div>
       )}
