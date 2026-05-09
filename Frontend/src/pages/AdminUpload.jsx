@@ -62,19 +62,6 @@ function AdminUpload() {
     await axios.delete(`https://capturecraft-backend.onrender.com/api/submissions/${id}`);
     fetchAll();
   };
-
-  
-
-
-
-
-
-
-
-
-
-
-
   
   // ================= ABOUT ME =================
  const [aboutData, setAboutData] = useState({
@@ -87,13 +74,6 @@ function AdminUpload() {
 });
 
 const [aboutPreview, setAboutPreview] = useState(null);
-
-
-
-
-
-
-
 
 // IMAGE UPLOAD (reuse your /api/upload)
 const onAboutDrop = async (files) => {
@@ -108,8 +88,11 @@ const onAboutDrop = async (files) => {
   // upload image to backend upload API
   const uploadRes = await axios.post(
     "https://capturecraft-backend.onrender.com/api/upload",
-    formData
-  );
+    formData, {
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+});
 
   setAboutData((prev) => ({
     ...prev,
@@ -117,42 +100,11 @@ const onAboutDrop = async (files) => {
   }));
 };
 
-
-
-
-
-
-
-
-
-
-
-
-
 const { getRootProps: aboutRoot, getInputProps: aboutInput } = useDropzone({
   onDrop: onAboutDrop,
   accept: { "image/*": [] },
 });
 
-// SAVE ABOUT
-// const uploadAbout = async (e) => {
-//   e.preventDefault();
-
-//   await axios.put("https://capturecraft-backend.onrender.com/api/about", aboutData);
-
-//   alert("About Updated ✅");
-
-//   setAboutData({
-//     title: "",
-//     description1: "",
-//     description2: "",
-//     description3: "",
-//     quote: "",
-//     imageUrl: "",
-//   });
-
-//   setAboutPreview(null);
-// };
 
 const uploadAbout = async (e) => {
   e.preventDefault();
@@ -163,8 +115,6 @@ const uploadAbout = async (e) => {
 
   setAboutPreview(null);
 };
-
-
 
   // ================= GALLERY DROP =================
   const onGalleryDrop = (files) => {
@@ -190,7 +140,11 @@ const uploadAbout = async (e) => {
     formData.append("category", galleryCategory); 
     formData.append("image", galleryImage);
 
-    await axios.post("https://capturecraft-backend.onrender.com/api/photos", formData);
+    await axios.post("https://capturecraft-backend.onrender.com/api/photos", formData, {
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+});
 
     setGalleryTitle("");
     setGalleryCategory("");
@@ -223,7 +177,11 @@ const uploadAbout = async (e) => {
     formData.append("title", sliderTitle);
     formData.append("image", sliderImage);
 
-    await axios.post("https://capturecraft-backend.onrender.com/api/slider", formData);
+    await axios.post("https://capturecraft-backend.onrender.com/api/slider", formData, {
+  headers: {
+    "Content-Type": "multipart/form-data",
+  },
+});
 
     setSliderTitle("");
     setSliderImage(null);
@@ -240,15 +198,6 @@ const uploadAbout = async (e) => {
       {/* ================= GALLERY ================= */}
       <section className="section">
         <h2 className="title">Upload Gallery Images</h2>
-
-
-
-
-
-
-
-
-
 
         <form onSubmit={uploadGallery} className="formBox">
           <input
@@ -279,30 +228,8 @@ const uploadAbout = async (e) => {
 
           {galleryPreview && <img src={galleryPreview} className="preview" />}
 
-          <button className="submitBtn">Upload</button>
+          <button type="submit" className="submitBtn">Upload</button>
         </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         <div className="grid">
           {galleryPhotos.map((img) => (
@@ -373,28 +300,6 @@ const uploadAbout = async (e) => {
       </section>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
  {/* ================= For AboutMe page ================= */}
 
 <section className="section">
@@ -457,51 +362,9 @@ const uploadAbout = async (e) => {
       <img src={aboutPreview} className="preview" />
     )}
 
-    <button className="submitBtn">Update About</button>
+    <button type="submit" className="submitBtn">Update About</button>
   </form>
 </section>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
       {/* ================= MODAL ================= */}
       {showModal && (
@@ -531,7 +394,7 @@ const uploadAbout = async (e) => {
 
             {sliderPreview && <img src={sliderPreview} className="preview" />}
 
-            <button className="submitBtn">Upload</button>
+            <button type="submit" className="submitBtn">Upload</button>
           </form>
         </div>
       )}

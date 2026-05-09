@@ -16,20 +16,20 @@ connectDB();
 const app = express(); // ✅ MUST be first
 
 // ✅ MIDDLEWARE
-app.use(cors());
-app.use(express.json());
-
-// ✅ STATIC FILES
-app.use("/uploads", express.static("uploads"));
-
 
 app.use(cors({
   origin: [
+    "http://localhost:5173",
     "https://capturecraft.vercel.app",
     "https://capturecraft-43b8t7edv-sakshikumbhar99s-projects.vercel.app"
   ],
   credentials: true
 }));
+app.use(express.json());
+
+// ✅ STATIC FILES
+app.use("/uploads", express.static("uploads"));
+
 
 
 // ✅ ROUTES

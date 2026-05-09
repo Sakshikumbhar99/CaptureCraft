@@ -6,23 +6,49 @@ import upload from "../middleware/upload.js";
 const router = express.Router();
 
 // ================= UPLOAD =================
+// router.post("/", upload.single("image"), async (req, res) => {
+//   try {
+//     const newPhoto = new Photo({
+//       title: req.body.title,
+//       // category: req.body.category || "All",
+
+//       category: req.body.category,
+
+//       imageUrl: req.file?.path || req.file?.secure_url || "",
+//     });
+
+//     await newPhoto.save();
+//     res.status(201).json(newPhoto);
+//   } catch (err) {
+//     res.status(500).json({ error: err.message });
+//   }
+// });
+
 router.post("/", upload.single("image"), async (req, res) => {
   try {
+
+    console.log(req.file);
+
     const newPhoto = new Photo({
       title: req.body.title,
-      // category: req.body.category || "All",
-
       category: req.body.category,
-
-      imageUrl: req.file.path,
+      imageUrl: req.file?.path || "",
     });
 
     await newPhoto.save();
+
     res.status(201).json(newPhoto);
+
   } catch (err) {
-    res.status(500).json({ error: err.message });
+
+    console.log(err);
+
+    res.status(500).json({
+      error: err.message,
+    });
   }
 });
+
 
 // ================= GET =================
 router.get("/", async (req, res) => {

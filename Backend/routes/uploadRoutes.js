@@ -27,7 +27,7 @@
 // router.post("/", upload.single("image"), (req, res) => {
 //   try {
 //     res.json({
-//       imageUrl: req.file.path,
+//       imageUrl: req.file?.path || req.file?.secure_url || "",
 //     });
 //   } catch (error) {
 //     res.status(500).json({ message: "Upload failed" });
@@ -50,7 +50,7 @@ const router = express.Router();
 router.post("/", upload.single("image"), async (req, res) => {
   try {
     res.json({
-      imageUrl: req.file.path,
+      imageUrl: req.file?.path || req.file?.secure_url || "",
     });
   } catch (error) {
     console.log(error);

@@ -14,9 +14,10 @@ router.get("/", async (req, res) => {
 // POST (FIXED)
 router.post("/", upload.single("image"), async (req, res) => {
   try {
-    const imageUrl = req.file
-  ? req.file.path
-  : "";
+    
+    console.log(req.file);
+
+    const imageUrl = req.file?.path || req.file?.secure_url || "";
 
     const newSlide = new Slider({
       title: req.body.title,
